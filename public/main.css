@@ -70,12 +70,29 @@ html,body {
 	margin: 0px;
 	/*background-color: salmon;*/
 	display: grid;
-	grid-template-columns: repeat(3, 33.33%);
-	grid-template-rows: 30% 70%;
+	grid-template-columns: 100%;
+	grid-template-rows: auto auto auto;
 	grid-template-areas: 
-	"delivery_to menu_items payment"
-	"delivery_from menu_items payment"
+	"delivery_to"
+	"menu_items"
+	"payment"
 }
+
+@media only screen and (min-width: 700px){
+ 	#main_page {
+		height: 100%;
+		grid-area: main_page;
+		margin: 0px;
+		display: grid;
+		grid-template-columns: repeat(3, 33.33%);
+		grid-template-rows: 30% 70%;
+		grid-template-areas: 
+		"delivery_to menu_items payment"
+		"delivery_from menu_items payment"
+	}
+}
+
+
 
 .section_title {
 	/*font-weight: bold;*/
