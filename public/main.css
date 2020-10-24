@@ -1,0 +1,315 @@
+* {
+	-ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+html,body {
+	height: 100%;
+	margin: 0px;
+	font-family: helvetica;
+	
+}
+#content {
+	height:100%;
+	display: grid;
+	grid-template-columns: : 100%;
+	grid-template-rows: 10% 90%;
+	grid-template-areas: 
+	"title"
+	"main_page";
+}
+
+#title {
+	grid-area: title;
+	background-color: #D73F09;
+	display: grid;
+	grid-template-columns: 63% repeat(3, auto);
+	grid-template-areas: 
+	"name faq contact join";
+	font-size: 2rem;	
+}
+
+#title a {
+	color: black;
+	/*text-decoration: none;*/
+}
+
+#name {
+	grid-area: name;
+	padding: 1rem;
+
+}
+
+#join{
+	grid-area: join;
+	padding: 1rem;
+	text-align: right;	
+}
+
+#faq {
+	grid-area: faq;
+	padding: 1rem;
+	text-align: right;
+}
+
+#contact {
+	grid-area: contact;
+	padding: 1rem;
+	text-align: right;
+
+}
+
+
+#main_page {
+	height: 100%;
+	grid-area: main_page;
+	margin: 0px;
+	/*background-color: salmon;*/
+	display: grid;
+	grid-template-columns: repeat(3, 33.33%);
+	grid-template-rows: 30% 70%;
+	grid-template-areas: 
+	"delivery_to menu_items payment"
+	"delivery_from menu_items payment"
+}
+
+.section_title {
+	/*font-weight: bold;*/
+}
+
+#delivery_to_selectors {
+	grid-area: delivery_to;
+	/*background-color: lightblue;*/
+	padding: 1rem;
+	font-size: 2rem;
+	/*text-align: center;*/
+	box-sizing:border-box;
+
+}
+
+#dorms_select {
+	margin-top: 1rem;
+	width: 100%;
+	box-sizing: inherit;
+	font-size: 2rem;
+}
+
+
+
+#room_or_entry {
+	display: grid;
+	grid-template-rows: 50% 50%;
+	grid-template-columns: 50% 50%;
+	margin-top: 0.5rem;
+	grid-template-areas: 
+	"room_select entry_select"
+	"room_num ."
+}
+
+#room_or_entry button {
+	margin: 0px;
+	width: 100%;
+	height: 95%;
+	border: none;
+	border-radius: 2px;
+	font-size: 1.5rem;
+}
+.direct_select {
+	-webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.2s ease-out;
+}
+
+.direct_select:focus {
+	outline: none;
+}
+
+.active {
+	background-color: #D73F09;
+}
+.inactive {
+	background-color: none;
+}
+#room_select{
+	grid-area: room_select;
+	/*background-color: blue;*/
+}
+
+#entry_select{
+	grid-area: entry_select;
+}
+
+#room_num {
+	grid-area: room_num;
+	width: 100%;
+	box-sizing: border-box;
+	margin-top: .5rem;
+	font-size: 2rem;
+	/*background-color: green;*/
+}
+
+#delivery_from_selectors {
+	grid-area: delivery_from;
+	/*background-color: lightblue;*/
+	padding: 1rem;
+	font-size: 2rem;
+	text-align: left;
+	box-sizing:border-box;
+}
+
+#delivery_from_selectors hr {
+	border: 1px solid black;
+	margin: 0px;
+
+}
+
+#dining_options {
+	margin-top: 1rem;
+	overflow: scroll;
+	height: 90%;
+	padding: 0px;
+}
+
+#dining_options p {
+	padding: 0px;
+	margin: 0.25rem;
+}
+
+.diner_option {
+	width: 100%;
+	margin-bottom: 0.25rem;
+	text-align: left;
+	font-size: 1.5rem;
+}
+
+.hours {
+	font-style: italic;
+	color: grey;
+}
+#menu_items {
+	grid-area: menu_items;
+	font-size: 2rem;
+	padding: 1rem;
+	/*background-color: lightgreen;*/
+
+}
+
+.counter{
+	text-align: center;
+}
+
+.button_td {
+	text-align: center;
+}
+.adjust_button {
+	height:3rem;
+	width:3rem;
+	text-align: center;
+}
+
+#payment{
+	padding: 1rem 1rem 0rem 1rem;
+	grid-area: payment;
+	height: 95%;
+	display: grid;
+	grid-template-rows:10% 44% 8% 8% 20% 10%;
+	grid-template-columns: 100%;
+	grid-template-areas: 
+	"payment_title"
+	"confirm_items_list"
+	"price_preview"
+	"select_time_range"
+	"instructions"
+	"send_button"
+
+}
+#payment_title{
+	grid-area: payment_title;
+	font-size: 2rem;
+}
+
+#confirm_items_list {
+	grid-area: confirm_items_list;
+}
+
+#confirm_items_table {
+	table-layout:fixed;
+	width: 1000px;
+	font-size: 1.5rem;
+	/*background-color: orange;*/
+}
+#confirm_items_table td {
+	overflow:hidden;
+	/*background-color: red;*/
+}
+#confirm_items_table td:nth-of-type(1) {
+	width:50%
+}
+#confirm_items_table td:nth-of-type(2) {
+	width:25%;
+}
+#confirm_items_table td:nth-of-type(3) {
+	width:25%;
+}
+
+#price_preview{
+	
+	grid-area:
+ price_preview;
+	/*background-color: lightblue;*/
+	font-size: 2em;
+}
+#select_time_range{
+	grid-area: select_time_range;
+	/*background-color: lightgreen;*/
+	/*color: red;*/
+	font-size: 1.5em;
+}
+
+#select_time_range input {
+	margin: 0px;
+	padding: 0px;
+}
+#instructions{
+	grid-area: instructions;
+	/*background-color: lightpink;*/
+	font-size: 1.5em;
+}
+
+textarea[name="special_instructions"]{
+	resize: none;
+	width: 100%;
+	height: 70%;
+	box-sizing:border-box;
+	font-family: helvetica;
+	font-size: 1.5rem;
+}
+#send_button{
+	grid-area: send_button;
+	background-color: salmon;
+	margin: 0px;
+	padding: 0px;
+	/*box-sizing:border-box;*/
+}
+
+span[name="price_preview_total"]{
+	display: block;
+	float: right;
+}
+input[name="telephone"]{
+	width: 50%;
+	height: 100%;
+	font-size: 2em;
+	box-sizing:border-box;
+}
+
+button[name="confirm"]{
+	width: 50%;
+	height: 100%;
+	font-size: 2em;
+	box-sizing:border-box;}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/main.css">
+	<script type="text/javascript" src="/main.js"></script>
+</head>
+<body onload="setTimeDefaults()">
+	<form id="master_form"></form>
+		<div id="content">
+			<div id="title">
+				<div id="name">Food4Beavs</div>
+				<div id="join"><a href="#">Sign up to deliver</a></div>
+				<div id="faq"><a href="#">FAQ</a></div>
+				<div id="contact"><a href="#">Contact</a></div>
+			</div>
+			<div id="main_page">
+				<div id="delivery_to_selectors">
+					<div class="section_title"> Where are we delivering to? </div>
+					<select id="dorms_select" form="master_form" required>
+						<option value="WEST">WEST HALL</option>
+						<option value="SACKETT">SACKETT</option>
+					</select>
+					<div id="room_or_entry">
+						<div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
+						<div id="entry_select"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])"	>Meet at dorm</button></div>
+						<input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form">
+					</div>
+				</div>
+				<div id="delivery_from_selectors">
+					<div class="section_title"> Where from? (Scroll for more) </div>
+					<div id="dining_options">
+						<p> West Dining Center </p>
+						<hr>
+						<div class="collapsible">
+							<button class="diner_option" id="CLUBHOUSEDELI" onclick="showMenu(this.id)">
+								<p> Clubhouse Deli </p>
+								<p class="hours"> (7:00 AM - 8:00 PM) </p>
+							</button>
+							<button class="diner_option" id='COOPERSCREEK' onclick="showMenu(this.id)" >
+								<p> Cooper`s Creek</p>
+								<p class="hours"> (10:00 AM - 7:00 PM) </p>
+							</button>
+							<button class="diner_option" id="EBGBS" onclick="showMenu(this.id)">
+								<p> EBGBs</p>
+								<p class="hours"> (7:00 AM - 10:00 PM) </p>
+							</button>
+							<button class="diner_option" id="RINGOFFIRE" onclick="showMenu(this.id)">
+								<p> Ring of Fire</p>
+								<p class="hours"> (10:00 AM - 7:00 PM) </p>
+							</button>
+							<button class="diner_option" id="SERRANO" onclick="showMenu(this.id)">
+								<p> Serrano </p>
+								<p class="hours"> (7:00 AM - 10:15 AM, 11:00 AM - 8:00 PM) </p>
+							</button>
+							<button class="diner_option" id="WESTSIDEGRILL" onclick="showMenu(this.id)">
+								<p> West Side Grill </p>
+								<p class="hours"> (5:00 PM - 7:30 PM, 11:00 AM - 1:00 PM) </p>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div id="menu_items">
+					<div class="section_title"> Menu Items </div>
+					<div id="EBGBS_menu" style="display: none" class="menu"> 
+						<table style="width:100%">
+							<tr>
+								<td>
+									Espresso <br>
+								</td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('-', 'espresso')">
+										-
+									</button>
+								</td>
+								<td class="counter" id="espresso_counter"> 0 </td>
+								<td class="button_td">
+									<button class="adjust_button" class="adjust_button" onclick="adjustValue('+', 'espresso')">
+										+
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Latte <br>
+								</td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('-', 'latte')">
+										-
+									</button>
+								</td>
+								<td class="counter" id="latte_counter"> 0 </td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('+', 'latte')">
+										+
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Banana Bread <br>
+								</td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('-', 'bananabread')">
+										-
+									</button>
+								</td>
+								<td class="counter" id="bananabread_counter"> 0 </td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('+', 'bananabread')">
+										+
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Cookie <br>
+								</td>
+								<td class="button_td">
+									<button class="adjust_button" id="cookie" onclick="adjustValue('-', 'cookie')">
+										-
+									</button>
+								</td>
+								<td class="counter" id="cookie_counter"> 0 </td>
+								<td class="button_td">
+									<button class="adjust_button" onclick="adjustValue('+', 'cookie')">
+										+
+									</button>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="SERRANO_menu" style="display: none" class="menu"> TEST2 </div>
+				</div>
+				<div id="payment">
+					<div id="payment_title" class="section_title"> Confirm Order </div>
+					<div id="confirm_items_list">
+						<table style="width: 100%" id = "confirm_items_table">
+						</table>
+					</div>
+					<div id="price_preview">
+						Total: <span name="price_preview_total">$<span id="price_preview_total_num">0</span></span>
+					</div>
+					<div id="select_time_range" > 
+						Deliver between <input type="time" name="time_range_start" required form="master_form" > and <input type="time" name="time_range_end" required form="master_form" >
+					</div>
+					<div id="instructions">
+						<textarea rows="5" cols="2" name="special_instructions"placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form" ></textarea>
+						<div> 
+							<input type="checkbox" name="contactless"> Contactless 
+						</div>
+					</div>
+					<div id="send_button">
+						<!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
+						<input type="tel" name="telephone" placeholder="Phone #" required form="master_form" ><button name="confirm" type="submit" form="master_form" onclick="pay()">PAY</button> 
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- </form> -->
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.24.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.24.0/firebase-analytics.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+</body>
