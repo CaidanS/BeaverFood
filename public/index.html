@@ -1,101 +1,371 @@
 <!DOCTYPE html>
+
 <head>
-	<link rel="stylesheet" type="text/css" href="/main.css">
-	<!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
 </head>
+
 <body onload="setTimeDefaults()">
-	<form id="master_form"></form>
-		<div id="content">
-			<div id="title">
-				<div id="name">Food4Beavs</div>
-				<div id="join"><a href="#">Sign up to deliver</a></div>
-				<div id="faq"><a href="#">FAQ</a></div>
-				<div id="contact"><a href="#">Contact</a></div>
-			</div>
-			<div id="main_page">
-				<div id="delivery_to_selectors">
-					<div class="section_title"> Where are we delivering to? </div>
-					<select id="dorms_select" form="master_form" required>
-						<option value="WEST">WEST HALL</option>
-						<option value="SACKETT">SACKETT</option>
-					</select>
-					<div id="room_or_entry">
-						<div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
-						<div id="entry_select"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])"	>Meet at dorm</button></div>
-						<input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form">
-					</div>
-				</div>
-				<div id="delivery_from_selectors">
-					<div class="section_title"> Where from? (Scroll for more) </div>
-					<div id="dining_options">
-						<p> West Dining Center </p>
-						<hr>
-						<div class="collapsible">
-							<button class="diner_option" id="CLUBHOUSEDELI" onclick="showMenu(this.id)">
-								<p> Clubhouse Deli </p>
-								<p class="hours"> (7:00 AM - 8:00 PM) </p>
-							</button>
-							<button class="diner_option" id='COOPERSCREEK' onclick="showMenu(this.id)" >
-								<p> Cooper`s Creek</p>
-								<p class="hours"> (10:00 AM - 7:00 PM) </p>
-							</button>
-							<button class="diner_option" id="EBGBS" onclick="showMenu(this.id)">
-								<p> EBGBs</p>
-								<p class="hours"> (7:00 AM - 10:00 PM) </p>
-							</button>
-							<button class="diner_option" id="RINGOFFIRE" onclick="showMenu(this.id)">
-								<p> Ring of Fire</p>
-								<p class="hours"> (10:00 AM - 7:00 PM) </p>
-							</button>
-							<button class="diner_option" id="SERRANO" onclick="showMenu(this.id)">
-								<p> Serrano </p>
-								<p class="hours"> (7:00 AM - 10:15 AM, 11:00 AM - 8:00 PM) </p>
-							</button>
-							<button class="diner_option" id="WESTSIDEGRILL" onclick="showMenu(this.id)">
-								<p> West Side Grill </p>
-								<p class="hours"> (5:00 PM - 7:30 PM, 11:00 AM - 1:00 PM) </p>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div id="menu_items">
-					<div class="section_title"> Menu Items </div>
-				</div>
-				<div id="payment">
-					<div id="payment_title" class="section_title"> Confirm Order </div>
-					<div id="confirm_items_list">
-						<table style="width: 100%" id = "confirm_items_table">
-						</table>
-					</div>
-					<div id="price_preview">
-						Total: <span name="price_preview_total">$<span id="price_preview_total_num">0</span></span>
-					</div>
-					<div id="select_time_range" > 
-						Deliver between <input type="time" name="time_range_start" required form="master_form" > and <input type="time" name="time_range_end" required form="master_form" >
-					</div>
-					<div id="instructions">
-						<textarea rows="5" cols="2" name="special_instructions"placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form" ></textarea>
-						<div> 
-							<input type="checkbox" name="contactless"> Contactless 
-						</div>
-					</div>
-					<div id="send_button">
-						<!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
-						<input type="tel" name="telephone" placeholder="Phone #" required form="master_form" ><button name="confirm" type="submit" form="master_form" onclick="pay()">PAY</button> 
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- </form> -->
-	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <form id="master_form"></form>
+    <div id="content">
+        <div id="title">
+            <div id="name">🥞 Food4Beavs</div>
+            <!-- <div id="join"><a href="#">Sign up to deliver</a></div> -->
+            <div id="faq"><a href="#">FAQ/Become a courier</a></div>
+            <!-- <div id="contact"><a href="#">Contact</a></div> -->
+        </div>
+        <div id="page_wrapper" style="height: calc(90vh - 2rem);">
+            <div id="main_wrapper" style="visibility: visible; opacity: 1; height:90%">
+                <div id="main_page">
+                    <div id="delivery_to_selectors" class="drop_border">
+                        <div class="section_title"> 1. Where are we delivering to? </div>
+                        <select id="dorms_select" form="master_form" required>
+                            <option value="WEST">WEST HALL</option>
+                            <option value="SACKETT">SACKETT</option>
+                        </select>
+                        <div id="room_or_entry">
+                            <div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
+                            <div id="entry_select"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])">Meet at dorm</button></div>
+                            <input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form">
+                        </div>
+                    </div>
+                    <div id="delivery_from_selectors" class="drop_border">
+                        <div class="section_title"> 2. Where from? (Scroll for more) </div>
+                        <div id="dining_options">
+                            <p> West Dining Center </p>
+                            <hr>
+                            <div class="collapsible">
+                                <!-- <button class="diner_option" id="CLUBHOUSEDELI" onclick="showMenu(this.id)">
+                                    <p> Clubhouse Deli </p>
+                                    <p class="hours"> (7:00 AM - 8:00 PM) </p>
+                                </button> -->
+                                <button class="diner_option" id='COOPERSCREEK' onclick="showMenu(this.id)">
+                                    <p> Cooper`s Creek</p>
+                                    <p class="hours"> (10:00 AM - 7:00 PM) </p>
+                                </button>
+                                <button class="diner_option" id="EBGBS" onclick="showMenu(this.id)">
+                                    <p> EBGBs</p>
+                                    <p class="hours"> (7:00 AM - 10:00 PM) </p>
+                                </button>
+                                <!-- <button class="diner_option" id="RINGOFFIRE" onclick="showMenu(this.id)">
+                                    <p> Ring of Fire</p>
+                                    <p class="hours"> (10:00 AM - 7:00 PM) </p>
+                                </button>
+                                <button class="diner_option" id="SERRANO" onclick="showMenu(this.id)">
+                                    <p> Serrano </p>
+                                    <p class="hours"> (7:00 AM - 10:15 AM, 11:00 AM - 8:00 PM) </p>
+                                </button>
+                                <button class="diner_option" id="WESTSIDEGRILL" onclick="showMenu(this.id)">
+                                    <p> West Side Grill </p>
+                                    <p class="hours"> (5:00 PM - 7:30 PM, 11:00 AM - 1:00 PM) </p>
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="menu_items" class="drop_border">
+                        <div class="section_title"> 3. Menu Items </div>
+                    </div>
+                    <div id="payment">
+                        <div id="payment_title" class="section_title"> 4. Confirm Order </div>
+                        <div id="confirm_items_list">
+                            <table style="width: 100%" id="confirm_items_table">
+                            </table>
+                        </div>
+                        <div id="price_preview">
+                            Total: <span name="price_preview_total">$<span id="price_preview_total_num">0</span></span>
+                        </div>
+                        <div id="select_time_range">
+                            Deliver between <input type="time" name="time_range_start" required form="master_form"> and <input type="time" name="time_range_end" required form="master_form"> (Contactless? <input type="checkbox" name="contactless" checked>)
+                        </div>
+                        <div id="instructions">
+                            <textarea rows="5" cols="2" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form"></textarea>
+                        </div>
+                        <div id="send_button">
+                            <div>Pay with card</div>
+                            <div id="card-element" form="master_form">
+                                <!-- Stripe card inputs get injected here -->
+                            </div>
+                            <!-- <button type="submit">Donate $5 USD</button> -->
+                            <div id="error" style="color: #e25950;"></div>
+                            <div id="processing" style="display: none;">processing...</div>
+                            <div id="thanks" style="display: none;">Done!</div>
+                            <!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
+                            <input type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="faq_body" style="visibility: hidden; opacity: 0">
+                <div id="faqs">
+                    <div class="section_title"> FAQ's </div>
+                    <div class="join_content">
+                        <ul>
+                            <li> Is my payment information secure? <p>Yes! All payment information is dealt with directly by Stripe, and is never seen by our code or database. You can learn more <a href="https://stripe.com/">here.</a></p>
+                            </li>
+                            <li>
+                                How do you make profit? <p>The purpose of this site is just to let students get food delivered directly to their dorm door. As such, all fees go directly to paying couriers and maintaing server costs.</p>
+                            </li>
+                            <li>
+                                Is my order/contact info secure? <p>Hopefully. I tried my best, but don't put your bank password in here or anything.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="about">
+                    <div class="section_title"> About </div>
+                    <div class="join_content">
+                        <p> Ever been too lazy to go from your dorm down to West Dining? Starship deliveries are great, but you still have to leave class to pick up food. This is a pretty big ask, so I made this service to allow us to remain lazy. </p>
+                        <p> If you have any questions, please feel free to contact me at <a href="mailto:spethmcc@oregonstate.edu">spethmcc[at]oregonstate.edu</a>, or come say hi at 452 West Hall! </p>
+                        <p> If you couldn't tell by the web design, I am definitely not a cs major, so if you have any experience, ideas or interest in collaborating, help is always appreciated!</p>
+                        <p> This project is currently run via Node, Cloud Functions, and Stripe. It is hosted via Google Firebase. </p>
+                    </div>
+                </div>
+                <div id="sign_up">
+                    <div class="section_title"> Interested in delivering? </div>
+                    <div class="join_content">
+                        <p> We are always looking for new couriers! Delivering is a low stress, easy way to earn a few extra bucks. </p>
+                        <p> How it works: </p>
+                        <ol>
+                            <li>
+                                <p> You go about your day as normal </p>
+                            </li>
+                            <li>
+                                <p> If there is a delivery available in your dorm, we will send you a text with the details </p>
+                            </li>
+                            <li>
+                                <p> You can then accept or decline the order </p>
+                            </li>
+                            <li>
+                                <p> After accepting, you go to the resturant in question within the time frame, and leave the meal outside of the customer's door </p>
+                            </li>
+                            <li>
+                                <p> After the customer has confimed they have recieved their food, you will be payed out via venmo!</p>
+                            </li>
+                        </ol>
+                        <br>
+                        <form action="https://formspree.io/f/xbjpolby" method="POST">
+                            <table style="text-align: center; width: 100%">
+                                <tr>
+                                    <td><input type="text" name="faq_name" placeholder="Name"> </td>
+                                    <td><select name="faq_dorm" required>
+                                            <option value="WEST">WEST HALL</option>
+                                            <option value="SACKETT">SACKETT</option>
+                                        </select> </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="tel" name="faq_tel" placeholder="Phone number" required></td>
+                                    <td><input type="email" name="_replyto" placeholder="Email"> </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"> <input name="faq_submit" type="submit" value="Submit"> </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    window.cart = {};
+    window.order_info = {};
+    </script>
+    <!-- THIS IS COPIED FROM https://medium.com/@gordonnl/headless-stripe-payments-with-firebase-9b12639ea118 -->
+    <!-- DO NOT TOUCH!!!!! -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- This script used for the Checkout method -->
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+    const STRIPE_PUBLIC_KEY = 'pk_test_51HelX0EDvQ8GmoM07OVwh23hqk2x5f39YBinBZ1O3Gc5DuT5TovvqUeF9UarS6G3uzJ4IsnuAaBni2xlAsEe0AeL00nzq6IMXt'; // TODO: PUT YOUR STRIPE PUBLISHABLE KEY HERE
+    const FIREBASE_FUNCTION = 'https://us-central1-beavereats.cloudfunctions.net/charge'; // TODO: PUT YOUR FIREBASE FUNCTIONS URL HERE
 
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-	     https://firebase.google.com/docs/web/setup#available-libraries -->
-	<!-- <script src="/__/firebase/7.24.0/firebase-analytics.js"></script> -->
+    const stripe = Stripe(STRIPE_PUBLIC_KEY);
+    const elements = stripe.elements();
 
-	<!-- Initialize Firebase -->
-	<script src="/__/firebase/init.js"></script>
-	<script src="/__/firebase/7.24.0/firebase-database.js"></script>
-	<script type="text/javascript" src="/app.js"></script>
+    // const charge_amount = 500;
+    const charge_currency = 'usd';
+
+    // Store the elements used
+    const elForm = document.getElementById('master_form');
+    const elCheckout = document.getElementById('checkout');
+    const elPaymentButton = document.getElementById('payment-request-button');
+    const elCard = document.getElementById('card-element');
+    const elError = document.getElementById('error');
+    const elProcessing = document.getElementById('processing');
+    const elThanks = document.getElementById('thanks');
+
+    // addPaymentRequestMethod();
+    addCardMethod();
+    // addCheckoutMethod();
+
+    // function addPaymentRequestMethod() {
+    //     const paymentRequest = stripe.paymentRequest({
+    //         country: 'US',
+    //         currency: charge_currency,
+    //         total: {
+    //             label: 'Total',
+    //             amount: charge_amount,
+    //         }
+    //     });
+
+    //     const paymentRequestButton = elements.create('paymentRequestButton', {
+    //         paymentRequest,
+    //         style: {
+    //             paymentRequestButton: {
+    //                 type: 'donate'
+    //             }
+    //         }
+    //     });
+
+    //     // Only mount button if browser supports payment requests
+    //     (async () => {
+    //         const result = await paymentRequest.canMakePayment();
+    //         if (result) paymentRequestButton.mount(elPaymentButton);
+    //         else elPaymentButton.style.display = 'none';
+    //     })();
+
+    //     paymentRequest.on('token', async result => {
+
+    //         // Pass the received token to our Firebase function
+    //         let res = await charge(result.token, charge_amount, charge_currency);
+    //         if (res.body.error) {
+    //             result.complete('fail');
+    //         } else {
+
+    //             // Card successfully charged
+    //             result.complete('success');
+    //             elForm.style.display = 'none';
+    //             elThanks.style.display = 'block';
+    //         }
+    //     });
+    // }
+
+    function addCardMethod() {
+        const card = elements.create('card');
+            card.mount(elCard);
+
+            // Create flags to help prevent duplicate submissions
+            let isSubmitting, isSuccess;
+
+            // Handle validation errors from the card element
+            card.addEventListener('change', e => {
+                if (e.error) {
+                    elError.textContent = e.error.message;
+                } else {
+                    elError.textContent = '';
+                }
+            });
+
+            elForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                if (isSubmitting) return;
+                isSubmitting = true;
+
+                elForm.style.display = 'none';
+                elProcessing.style.display = 'block';
+
+                let result = await stripe.createToken(card);
+
+                // Error in receiving token
+                if (result.error) return elError.textContent = result.error.message;
+
+                // Pass the received token to our Firebase function
+                charge_amount = 1500;
+                let res = await charge(result.token, charge_amount, charge_currency);
+                if (res.body.error) return elError.textContent = res.body.error;
+
+                // Card successfully charged
+                card.clear();
+                isSuccess = true;
+
+                isSubmitting = false;
+                elProcessing.style.display = 'none';
+
+                // Either display thanks or re-display form if there was an error
+                if (isSuccess) {
+                    elThanks.style.display = 'block';
+                } else {
+                    elForm.style.display = 'block';
+                }
+            });
+    }
+
+    // function addCheckoutMethod() {
+    //     const handler = StripeCheckout.configure({
+    //         key: STRIPE_PUBLIC_KEY,
+    //         locale: 'auto',
+    //         token: async token => {
+
+    //             // Pass the received token to our Firebase function
+    //             let res = await charge(token, charge_amount, charge_currency);
+    //             if (res.body.error) return elError.textContent = res.body.error;
+
+    //             // Card successfully charged
+    //             elForm.style.display = 'none';
+    //             elThanks.style.display = 'block';
+    //         }
+    //     });
+
+    //     elCheckout.addEventListener('click', e => {
+    //         e.preventDefault();
+    //         handler.open({
+    //             name: 'Firebase Example',
+    //             amount: charge_amount,
+    //             currency: charge_currency,
+    //         });
+    //     });
+
+    //     // Close Checkout on page navigation
+    //     window.addEventListener('popstate', () => handler.close());
+    // }
+
+    // Function used by all three methods to send the charge data to your Firebase function
+    async function charge(token, amount, currency) {
+            const res = await fetch(FIREBASE_FUNCTION, {
+                method: 'POST',
+                body: JSON.stringify({
+                    token,
+                    charge: {
+                        amount,
+                        currency,
+                    },
+                }),
+            });
+            const data = await res.json();
+            data.body = JSON.parse(data.body);
+            return data;
+        }
+
+
+
+
+    // async function charge(token, cart, order_info) {
+    //     currency = "usd";
+    //     amount = 100;
+    //     const res = await fetch(FIREBASE_FUNCTION, {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             token,
+    //             cart,
+    //             charge: {
+    //                 amount,
+    //                 currency
+    //             }
+    //         }),
+    //     });
+    //     const data = await res.json();
+    //     data.body = JSON.parse(data.body);
+    //     return data;
+    // }
+    </script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!-- <script src="/__/firebase/7.24.0/firebase-analytics.js"></script> -->
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-database.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
 </body>

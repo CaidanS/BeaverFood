@@ -13,6 +13,16 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [ {
+      "source": "/charge",
+      "function": "charge"}
     ]
+  },
+  "emulators": {
+    "database": {
+      "host": "localhost",
+      "port": "8000"
+    }
   }
 }

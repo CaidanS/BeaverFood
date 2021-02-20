@@ -1,7 +1,8 @@
 * {
 	-ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;
-    
+    	font-family: trebuchetms;
+
 }
 
 ::-webkit-scrollbar { 
@@ -10,11 +11,63 @@
 html,body {
 	height: 100%;
 	margin: 0px;
-	font-family: helvetica;
 	
 }
+
+.drop_border {
+	/*border-radius: 1rem;*/
+/*	margin: 2rem;
+*/}
+
+.drop_border:hover {
+	/*box-shadow: 0px 0px .4rem .1rem #FEE3AF;*/
+}
+
+#main_wrapper {
+	/*padding: 1rem: */
+	transition: visibility .5s, opacity .4s ease;
+	position: absolute;
+	margin-left: .5rem;
+	margin-right: .5rem;
+}
+
+#faq_body {
+	transition: visibility .5s, opacity .4s ease;
+	background-color: #FEE3AF;
+	/*background-image: linear-gradient(#FEE3AF, #F77F00);*/
+	height: calc(90vh - 1.2rem);
+	width: calc(100% - 2rem);
+	position: absolute;
+	font-size: 2rem;
+	padding: 1rem;
+	display: grid;
+	grid-template-columns: 33% 33%;
+	grid-template-rows: 100%;
+	grid-template-areas: 
+	"faqs about sign_up";
+
+}
+
+#about {
+	grid-area: about;
+}
+
+#faqs {
+	grid-area: faqs;
+}
+
+#sign_up {
+	grid-area: sign_up;
+}
+
+.join_content {
+	font-size: 1.5rem;
+	padding: 2rem;
+	padding-top: 0px;
+}
+
 #content {
-	height:100%;
+	height: calc(90vh - 2rem);;
 	display: grid;
 	grid-template-columns: : 100%;
 	grid-template-rows: 10% 90%;
@@ -25,22 +78,24 @@ html,body {
 
 #title {
 	grid-area: title;
-	background-color: #D73F09;
-	display: grid;
-	grid-template-columns: 63% repeat(3, auto);
+	background-color: #fcbf49;	display: grid;
+	grid-template-columns: 50% 50%;
 	grid-template-areas: 
-	"name faq contact join";
-	font-size: 2rem;	
+	"name faq";
+	font-size: 2rem;
 }
 
 #title a {
 	color: black;
+	align-self: center;
 	/*text-decoration: none;*/
 }
 
 #name {
 	grid-area: name;
 	padding: 1rem;
+	align-self: center;
+
 
 }
 
@@ -48,18 +103,21 @@ html,body {
 	grid-area: join;
 	padding: 1rem;
 	text-align: right;	
+	align-self: center;
 }
 
 #faq {
 	grid-area: faq;
 	padding: 1rem;
 	text-align: right;
+	align-self: center;
 }
 
 #contact {
 	grid-area: contact;
 	padding: 1rem;
 	text-align: right;
+	align-self: center;
 
 }
 
@@ -71,14 +129,14 @@ html,body {
 	/*background-color: salmon;*/
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: auto auto auto;
+	grid-template-rows: repeat(3, 100%);
 	grid-template-areas: 
 	"delivery_to"
 	"menu_items"
 	"payment"
 }
 
-@media only screen and (min-width: 700px){
+@media only screen and (min-width: 1000px){
  	#main_page {
 		height: 100%;
 		grid-area: main_page;
@@ -96,6 +154,9 @@ html,body {
 
 .section_title {
 	/*font-weight: bold;*/
+	text-align: center;
+	padding-top: .5rem;
+	margin-bottom: 1.5rem;
 }
 
 #delivery_to_selectors {
@@ -109,7 +170,6 @@ html,body {
 }
 
 #dorms_select {
-	margin-top: 1rem;
 	width: 100%;
 	box-sizing: inherit;
 	font-size: 2rem;
@@ -147,7 +207,7 @@ html,body {
 }
 
 .active {
-	background-color: #D73F09;
+	background-color: #fcbf49;
 }
 .inactive {
 	background-color: none;
@@ -208,12 +268,35 @@ html,body {
 	font-style: italic;
 	color: grey;
 }
+
 #menu_items {
 	grid-area: menu_items;
 	font-size: 2rem;
 	padding: 1rem;
-	/*background-color: lightgreen;*/
+	/*border-right: .15rem solid black;
+	border-left: .15rem solid black;*/
+}
 
+#menu_items .section-title {
+		background-color: lightgreen;
+
+}
+
+#menu_items td {
+	overflow:hidden;
+	/*background-color: red;*/
+}
+#menu_items td:nth-of-type(1) {
+	width:50%
+}
+#menu_items td:nth-of-type(2) {
+	width:16.66%;
+}
+#menu_items td:nth-of-type(3) {
+	width:16.66%;
+}
+#menu_items td:nth-of-type(4) {
+	width:16.66%;
 }
 
 .counter{
@@ -232,9 +315,10 @@ html,body {
 #payment{
 	padding: 1rem 1rem 0rem 1rem;
 	grid-area: payment;
-	height: 95%;
+	height: 90%;
+	align-self: bottom;
 	display: grid;
-	grid-template-rows:10% 44% 8% 8% 20% 10%;
+	grid-template-rows:10% 44% 8% 8% 15% 15%;
 	grid-template-columns: 100%;
 	grid-template-areas: 
 	"payment_title"
@@ -276,8 +360,7 @@ html,body {
 
 #price_preview{
 	
-	grid-area:
- price_preview;
+	grid-area: price_preview;
 	/*background-color: lightblue;*/
 	font-size: 2em;
 }
@@ -305,10 +388,11 @@ textarea[name="special_instructions"]{
 	box-sizing:border-box;
 	font-family: helvetica;
 	font-size: 1.5rem;
+	padding: 0.25rem;
 }
 #send_button{
 	grid-area: send_button;
-	background-color: salmon;
+	/*background-color: salmon;*/
 	margin: 0px;
 	padding: 0px;
 	/*box-sizing:border-box;*/
@@ -320,13 +404,202 @@ span[name="price_preview_total"]{
 }
 input[name="telephone"]{
 	width: 50%;
-	height: 100%;
+	height: 3rem;
 	font-size: 2em;
 	box-sizing:border-box;
+	padding: 0.25rem;
+
 }
 
 button[name="confirm"]{
 	width: 50%;
-	height: 100%;
+	height: 3rem;
 	font-size: 2em;
-	box-sizing:border-box;}
+	box-sizing:border-box;
+}
+
+
+input[name="faq_tel"]{
+	font-size: 1.5rem;
+	box-sizing:border-box;
+	padding: 0.25rem;
+	width: 100%;
+}
+
+input[name="faq_name"]{
+	font-size: 1.5rem;
+	box-sizing:border-box;
+	padding: 0.25rem;
+	width: 100%;
+}
+
+input[name="_replyto"]{
+	font-size: 1.5rem;
+	box-sizing:border-box;
+	padding: 0.25rem;
+	width: 100%;
+}
+
+select[name="faq_dorm"]{
+	font-size: 1.5rem;
+	box-sizing:border-box;
+	padding: 0.25rem;
+	width: 100%;
+}
+
+input[name="faq_submit"]{
+	width: 100%;
+	font-size: 1.5rem;
+	box-sizing:border-box;
+	padding: 0.25rem;
+}
+
+/* STRIPE STUFF BELOW */
+
+#payment-form {
+  width: auto%;
+  /*min-width: 500px;*/
+  align-self: center;
+  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+  border-radius: 7px;
+  padding: 40px;
+}
+#payment-form input {
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: 44px;
+  font-size: 1.5rem;
+  width: 100%;
+  background: white;
+}
+.result-message {
+  line-height: 22px;
+  font-size: 1.5rem;;
+}
+.result-message a {
+  color: rgb(89, 111, 214);
+  font-weight: 600;
+  text-decoration: none;
+}
+.hidden {
+  display: none;
+}
+#card-error {
+  color: rgb(105, 115, 134);
+  text-align: left;
+  font-size: 1.5rem;
+  line-height: 17px;
+  margin-top: 12px;
+}
+#card-element {
+  border-radius: 4px 4px 0 0 ;
+  padding: 12px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: auto;
+  width: auto;
+  background: white;
+}
+#payment-request-button {
+  margin-bottom: 32px;
+}
+/* Buttons and links */
+#payment-form button {
+  background: #5469d4;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  border-radius: 0 0 4px 4px;
+  border: 0;
+  padding: 12px 16px;
+  font-size: 1.5rem;;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  width: 100%;
+}
+#payment-form button:hover {
+  filter: contrast(115%);
+}
+#payment-form button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+/* spinner/processing state, errors */
+.spinner,
+.spinner:before,
+.spinner:after {
+  border-radius: 50%;
+}
+.spinner {
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-indent: -99999px;
+  margin: 0px auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.spinner:before,
+.spinner:after {
+  position: absolute;
+  content: "";
+}
+.spinner:before {
+  width: 10.4px;
+  height: 20.4px;
+  background: #5469d4;
+  border-radius: 20.4px 0 0 20.4px;
+  top: -0.2px;
+  left: -0.2px;
+  -webkit-transform-origin: 10.4px 10.2px;
+  transform-origin: 10.4px 10.2px;
+  -webkit-animation: loading 2s infinite ease 1.5s;
+  animation: loading 2s infinite ease 1.5s;
+}
+.spinner:after {
+  width: 10.4px;
+  height: 10.2px;
+  background: #5469d4;
+  border-radius: 0 10.2px 10.2px 0;
+  top: -0.1px;
+  left: 10.2px;
+  -webkit-transform-origin: 0px 10.2px;
+  transform-origin: 0px 10.2px;
+  -webkit-animation: loading 2s infinite ease;
+  animation: loading 2s infinite ease;
+}
+@-webkit-keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@media only screen and (max-width: 600px) {
+  form {
+    /*width: 80vw;*/
+  }
+}

@@ -130,7 +130,3 @@ setTimeDefaults = function() {
 	start.value = hours + ":" + minutes;
 	end.value = hours + default_window + ":" + minutes;
 }
-
-pay = function (){
-	
-}

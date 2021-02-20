@@ -1,6 +1,5 @@
 // *** FIREBASE ***
 
-
 var config = {
     apiKey: "AIzaSyB5ZVLbni8ERY-IknnVnN2uKjmJUIqAkZA",
     authDomain: "beavereats.firebaseapp.com",
@@ -12,11 +11,25 @@ if (!firebase.apps.length) {
    firebase.initializeApp(config);
 }
 
-  // Get a reference to the database service
+// Get a reference to the database service
 var database = firebase.database();
 
 
+// var orders_ref = database.ref('/current_orders/');
+//     // const order = {
+//     //     status: "open",
+//     //     cart: cart,
+//     //     courier_phone: "none",
+//     // };
+// var new_order_ref = orders_ref.push();
+// new_order_ref.set({
+//     name: "test"
+// });
+
+
 // *** HELPER FUNCTIONS ***
+
+
 getMenuItems = function(rest_ID){
   var value = 'aaa'
   var ref = firebase.app().database().ref('/restaurants/'+rest_ID+'/menu');
@@ -25,11 +38,32 @@ getMenuItems = function(rest_ID){
    // console.log(value);
   });
 }
+faq_el = document.getElementById('faq');
 
 
+faq_body =  document.getElementById('faq_body');
+main_body = document.getElementById('main_wrapper');
+
+block_toggle = {
+  'visible':'hidden',
+  'hidden':'visible',
+  1:0,
+  0:1
+}
+
+toggleFAQ = function() {
+  faq_body.style.visibility = block_toggle[String(faq_body.style.visibility)];
+  main_body.style.visibility = block_toggle[String(main_body.style.visibility)];
+  main_body.style.opacity = block_toggle[main_body.style.opacity];
+  faq_body.style.opacity = block_toggle[faq_body.style.opacity];
+
+}
+
+faq_el.onclick = toggleFAQ;
 
 toggleDirect = function(current_state) {
   invert_dict = {
+    
     "inactive":"active",
     "active":"inactive"
   }
@@ -45,7 +79,7 @@ toggleDirect = function(current_state) {
     }
   }
 }
-var cart = {};
+// window.cart = {};
 
 var fees = {
   "Courier": {
@@ -72,23 +106,23 @@ var preview_prices = {
 
 adjustValue = function(direction, item_id) {
   if(direction == "+"){
-    if(item_id in cart){
-      cart[item_id] += 1;
+    if(item_id in window.cart){
+      window.cart[item_id] += 1;
     }
     else {
-      cart[item_id] = 1;
+      window.cart[item_id] = 1;
     }
   } else if(direction == "-") {
-    if(item_id in cart){
-      cart[item_id] -= 1;
+    if(item_id in window.cart){
+      window.cart[item_id] -= 1;
     }
-    if(cart[item_id] == 0){
-      delete cart[item_id];
+    if(window.cart[item_id] == 0){
+      delete window.cart[item_id];
     }
   }
   item_counter = document.getElementById(item_id + "_counter");
-  if(item_id in cart) {
-    item_counter.innerHTML = cart[item_id];
+  if(item_id in window.cart) {
+    item_counter.innerHTML = window.cart[item_id];
   } else {
     item_counter.innerHTML = "0"
   }
@@ -102,12 +136,12 @@ updatePreviewTable = function(){
   new_content = ""
   // console.log(table);
   var preview_price_sum = 0
-  for (item_id in cart) {
-    if (cart.hasOwnProperty(item_id)) {
+  for (item_id in window.cart) {
+    if (window.cart.hasOwnProperty(item_id)) {
       new_content += "<tr><td>" + item_id + "</td>" 
       new_content += "<td>" + "$ " + preview_prices[item_id] + "</td>"
-      new_content += "<td>" + "x " + cart[item_id] + "</td></tr>"
-      preview_price_sum += preview_prices[item_id]*cart[item_id];
+      new_content += "<td>" + "x " + window.cart[item_id] + "</td></tr>"
+      preview_price_sum += preview_prices[item_id]*window.cart[item_id];
     }
   }
   for (fee in fees) {
@@ -138,7 +172,7 @@ showMenu = function (rest_ID){
 
     // Don't completly understand .then things, but it is done async, so everything has to be within .then
     ref.once('value').then(function (snap) {
-      menu_content = "<table style='width:100%'>"
+      menu_content = "<table style='width:100%' >"
       menu_items = snap.val();
       for(item in menu_items){
         item_id = item;
@@ -216,6 +250,5 @@ setTimeDefaults = function() {
   end.value = hours + default_window + ":" + minutes;
 }
 
-pay = function (){
-  
-}
+
+
