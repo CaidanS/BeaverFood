@@ -22,27 +22,85 @@ var config = {
     storageBucket: "beavereats.appspot.com/"
 };
 
-// const admin = require('firebase-admin');
-// admin.initializeApp();
-// database = admin.database().ref();
+const admin = require('firebase-admin');
+admin.initializeApp();
+database = admin.database().ref();
 
 
-function charge(req, res) {
+
+async function charge(req, res) {
+    console.log("TEST");
     const body = JSON.parse(req.body);
     const token = body.token.id;
-    const amount = body.charge.amount;
+    var amount = body.charge.amount;
+    console.log(amount);
     const currency = body.charge.currency;
+    const cart = body.cart;
+    // Calculate Charge
+    var resturants_ref = admin.database().ref('/restaurants');
+    var price_sum = 0;
 
-    // Charge card
-    stripe.charges.create({
-        amount,
-        currency,
-        description: 'Firebase Example',
-        source: token,
-    }).then(charge => {
+    resturants_ref.once('value').then( (snap) => {
+        restaurants = snap.val();
+        master_menu = {};
+        console.log("restaurants: ");
+        console.log(restaurants);
+        for (var restaurant in restaurants) {
+            if (restaurants.hasOwnProperty(restaurant)) {
+                menu = restaurants[restaurant]['menu'];
+                master_menu = { ...master_menu, ...menu };
+            }
+        }
+        var price_sum = 0;
+        for (item_id in cart) {
+            if (cart.hasOwnProperty(item_id)) {
+                price_sum += master_menu[item_id]['price'] * cart[item_id];
+            }
+        }
+        SURCHARGE_VAL = 0.0; // 20% charge for service
+        price_sum = price_sum * (1+SURCHARGE_VAL);
+
+        // console.log("price_sum: ");
+        // console.log(price_sum);
+        // amount = price_sum
+        return price_sum;
+    }).then((_price_sum) => {
+            // Charge card
+            console.log("_price_sum: ");
+            console.log(_price_sum*100);
+            // var amount = _price_sum;
+            console.log("amount: --");
+            console.log(amount);
+            _charge = stripe.charges.create({
+                amount: (_price_sum*100),
+                currency: currency,
+                description: 'beavereats',
+                source: token,
+            });
+            return _charge;
+    }).then(_charge => {
         send(res, 200, {
             message: 'Success',
-            charge,
+            _charge,
+        });
+        return null;
+    }).then(_d => {
+
+        var orders_ref = admin.database().ref('/current_orders/');
+
+        const order = {
+            status: "open",
+            cart: cart,
+            total: price_sum,
+            courier_phone: "none",
+        };
+
+        var new_order_ref = orders_ref.push();
+        new_order_ref.set({
+            status: "open",
+            cart: cart,
+            total: price_sum,
+            courier_phone: "none",
         });
         return null;
     }).catch(err => {

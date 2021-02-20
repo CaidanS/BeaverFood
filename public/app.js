@@ -82,12 +82,12 @@ toggleDirect = function(current_state) {
 // window.cart = {};
 
 var fees = {
-  "Courier": {
-    "amount":2
-  },
-  "Service": {
-    "amount":3
-  }
+  // "Courier": {
+  //   "amount":2
+  // },
+  // "Service": {
+  //   "amount":3
+  // }
 }
 
 var id_to_name = {

@@ -91,7 +91,8 @@
                             <div id="processing" style="display: none;">processing...</div>
                             <div id="thanks" style="display: none;">Done!</div>
                             <!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
-                            <input type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button>
+                            <div id="submit_and_tel"><input type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button></div>
+                            <div id="progress_bar"></div>
                         </div>
                     </div>
                 </div>
@@ -195,51 +196,7 @@
     const elProcessing = document.getElementById('processing');
     const elThanks = document.getElementById('thanks');
 
-    // addPaymentRequestMethod();
     addCardMethod();
-    // addCheckoutMethod();
-
-    // function addPaymentRequestMethod() {
-    //     const paymentRequest = stripe.paymentRequest({
-    //         country: 'US',
-    //         currency: charge_currency,
-    //         total: {
-    //             label: 'Total',
-    //             amount: charge_amount,
-    //         }
-    //     });
-
-    //     const paymentRequestButton = elements.create('paymentRequestButton', {
-    //         paymentRequest,
-    //         style: {
-    //             paymentRequestButton: {
-    //                 type: 'donate'
-    //             }
-    //         }
-    //     });
-
-    //     // Only mount button if browser supports payment requests
-    //     (async () => {
-    //         const result = await paymentRequest.canMakePayment();
-    //         if (result) paymentRequestButton.mount(elPaymentButton);
-    //         else elPaymentButton.style.display = 'none';
-    //     })();
-
-    //     paymentRequest.on('token', async result => {
-
-    //         // Pass the received token to our Firebase function
-    //         let res = await charge(result.token, charge_amount, charge_currency);
-    //         if (res.body.error) {
-    //             result.complete('fail');
-    //         } else {
-
-    //             // Card successfully charged
-    //             result.complete('success');
-    //             elForm.style.display = 'none';
-    //             elThanks.style.display = 'block';
-    //         }
-    //     });
-    // }
 
     function addCardMethod() {
         const card = elements.create('card');
@@ -272,7 +229,7 @@
 
                 // Pass the received token to our Firebase function
                 charge_amount = 1500;
-                let res = await charge(result.token, charge_amount, charge_currency);
+                let res = await charge(result.token, charge_amount, charge_currency, window.cart);
                 if (res.body.error) return elError.textContent = res.body.error;
 
                 // Card successfully charged
@@ -291,41 +248,13 @@
             });
     }
 
-    // function addCheckoutMethod() {
-    //     const handler = StripeCheckout.configure({
-    //         key: STRIPE_PUBLIC_KEY,
-    //         locale: 'auto',
-    //         token: async token => {
-
-    //             // Pass the received token to our Firebase function
-    //             let res = await charge(token, charge_amount, charge_currency);
-    //             if (res.body.error) return elError.textContent = res.body.error;
-
-    //             // Card successfully charged
-    //             elForm.style.display = 'none';
-    //             elThanks.style.display = 'block';
-    //         }
-    //     });
-
-    //     elCheckout.addEventListener('click', e => {
-    //         e.preventDefault();
-    //         handler.open({
-    //             name: 'Firebase Example',
-    //             amount: charge_amount,
-    //             currency: charge_currency,
-    //         });
-    //     });
-
-    //     // Close Checkout on page navigation
-    //     window.addEventListener('popstate', () => handler.close());
-    // }
-
     // Function used by all three methods to send the charge data to your Firebase function
-    async function charge(token, amount, currency) {
-            const res = await fetch(FIREBASE_FUNCTION, {
+    async function charge(token, amount, currency, cart) {
+        const res = await fetch(FIREBASE_FUNCTION, {
                 method: 'POST',
                 body: JSON.stringify({
                     token,
+                    cart,
                     charge: {
                         amount,
                         currency,
@@ -337,27 +266,6 @@
             return data;
         }
 
-
-
-
-    // async function charge(token, cart, order_info) {
-    //     currency = "usd";
-    //     amount = 100;
-    //     const res = await fetch(FIREBASE_FUNCTION, {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             token,
-    //             cart,
-    //             charge: {
-    //                 amount,
-    //                 currency
-    //             }
-    //         }),
-    //     });
-    //     const data = await res.json();
-    //     data.body = JSON.parse(data.body);
-    //     return data;
-    // }
     </script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/__/firebase/7.24.0/firebase-app.js"></script>
