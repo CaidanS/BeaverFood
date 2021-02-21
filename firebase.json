@@ -16,7 +16,10 @@
     ],
     "rewrites": [ {
       "source": "/charge",
-      "function": "charge"}
+      "function": "charge"},
+      {
+        "source": "/sms",
+        "function": "sms"}
     ]
   },
   "emulators": {

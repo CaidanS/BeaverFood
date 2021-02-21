@@ -3,10 +3,23 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/main.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥞</text></svg>">
     <!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!-- <script src="/__/firebase/7.24.0/firebase-analytics.js"></script> -->
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-database.js"></script>
+    <!-- <script type="text/javascript" src="/app.js"></script> -->
+
+
 </head>
 
 <body onload="setTimeDefaults()">
+    <canvas id="_canvas"></canvas>
     <form id="master_form"></form>
     <div id="content">
         <div id="title">
@@ -79,9 +92,9 @@
                             Deliver between <input type="time" name="time_range_start" required form="master_form"> and <input type="time" name="time_range_end" required form="master_form"> (Contactless? <input type="checkbox" name="contactless" checked>)
                         </div>
                         <div id="instructions">
-                            <textarea rows="5" cols="2" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form"></textarea>
+                            <textarea rows="5" cols="2" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc. 4242 4242 4242 4242" form="master_form"></textarea>
                         </div>
-                        <div id="send_button">
+                        <div id="send_button" style="visibility: visible;">
                             <div>Pay with card</div>
                             <div id="card-element" form="master_form">
                                 <!-- Stripe card inputs get injected here -->
@@ -91,9 +104,11 @@
                             <div id="processing" style="display: none;">processing...</div>
                             <div id="thanks" style="display: none;">Done!</div>
                             <!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
-                            <div id="submit_and_tel"><input type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button></div>
-                            <div id="progress_bar"></div>
+                            <span id="tel_and_pay"><input type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button></span>
                         </div>
+                        <span id="progress_bar" style="visibility: hidden;">
+                            <div id="progress" style="text-align: center;"><span id="confirm_message" style="visibility: hidden; opacity: 0;">Order Placed!</span></div>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -168,15 +183,18 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="/app.js"></script>
+
     <script type="text/javascript">
-    window.cart = {};
-    window.order_info = {};
+        window.cart = {};
+        window.order_info = {};
     </script>
     <!-- THIS IS COPIED FROM https://medium.com/@gordonnl/headless-stripe-payments-with-firebase-9b12639ea118 -->
     <!-- DO NOT TOUCH!!!!! -->
     <script src="https://js.stripe.com/v3/"></script>
     <!-- This script used for the Checkout method -->
     <script src="https://checkout.stripe.com/checkout.js"></script>
+
     <script>
     const STRIPE_PUBLIC_KEY = 'pk_test_51HelX0EDvQ8GmoM07OVwh23hqk2x5f39YBinBZ1O3Gc5DuT5TovvqUeF9UarS6G3uzJ4IsnuAaBni2xlAsEe0AeL00nzq6IMXt'; // TODO: PUT YOUR STRIPE PUBLISHABLE KEY HERE
     const FIREBASE_FUNCTION = 'https://us-central1-beavereats.cloudfunctions.net/charge'; // TODO: PUT YOUR FIREBASE FUNCTIONS URL HERE
@@ -222,6 +240,13 @@
                 elForm.style.display = 'none';
                 elProcessing.style.display = 'block';
 
+                payment_submit = document.getElementById("tel_and_pay");
+                payment_submit.style.visibility = "hidden"
+                progress_bar_container = document.getElementById("progress_bar");
+                progress_bar_container.style.visibility = "visible"
+                progress_bar = document.getElementById("progress");
+                progress_bar.style.width = "80%";
+
                 let result = await stripe.createToken(card);
 
                 // Error in receiving token
@@ -241,7 +266,11 @@
 
                 // Either display thanks or re-display form if there was an error
                 if (isSuccess) {
-                    elThanks.style.display = 'block';
+                    progress_bar.style.width = "100%";
+                    confetti_loop();
+                    confrim_message_span = document.getElementById("confirm_message")
+                    confrim_message_span.style.opacity = 1;
+                    confrim_message_span.style.visibility = "visible";
                 } else {
                     elForm.style.display = 'block';
                 }
@@ -260,20 +289,11 @@
                         currency,
                     },
                 }),
-            });
-            const data = await res.json();
-            data.body = JSON.parse(data.body);
-            return data;
-        }
+        });
+        const data = await res.json();
+        data.body = JSON.parse(data.body);
+        return data;
+    }
 
     </script>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-    <!-- <script src="/__/firebase/7.24.0/firebase-analytics.js"></script> -->
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
-    <script src="/__/firebase/7.24.0/firebase-database.js"></script>
-    <script type="text/javascript" src="/app.js"></script>
 </body>
