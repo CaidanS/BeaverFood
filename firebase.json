@@ -19,7 +19,10 @@
       "function": "charge"},
       {
         "source": "/sms",
-        "function": "sms"}
+        "function": "sms"},
+      {
+        "source": "/handle_sms_courier",
+        "function": "handle_sms_courier"}
     ]
   },
   "emulators": {

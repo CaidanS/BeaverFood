@@ -37,10 +37,10 @@
                             <option value="WEST">WEST HALL</option>
                             <option value="SACKETT">SACKETT</option>
                         </select>
-                        <div id="room_or_entry">
+                        <div id="room_or_entry" >
                             <div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
-                            <div id="entry_select"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])">Meet at dorm</button></div>
-                            <input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form">
+                            <div id="entry_select" style="display: none;"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])">Meet at dorm</button></div>
+                            <input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form" required>
                         </div>
                     </div>
                     <div id="delivery_from_selectors" class="drop_border">
@@ -88,11 +88,11 @@
                         <div id="price_preview">
                             Total: <span name="price_preview_total">$<span id="price_preview_total_num">0</span></span>
                         </div>
-                        <div id="select_time_range">
-                            Deliver between <input type="time" name="time_range_start" required form="master_form"> and <input type="time" name="time_range_end" required form="master_form"> (Contactless? <input type="checkbox" name="contactless" checked>)
+                        <div id="select_time_range" style="display: none;">
+                            Deliver between <input type="time" name="time_range_start" required form="master_form"> and <input type="time" name="time_range_end" form="master_form"> (Contactless? <input type="checkbox" name="contactless" checked>)
                         </div>
                         <div id="instructions">
-                            <textarea rows="5" cols="2" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc. 4242 4242 4242 4242" form="master_form"></textarea>
+                            <textarea rows="5" cols="2" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form"></textarea>
                         </div>
                         <div id="send_button" style="visibility: visible;">
                             <div>Pay with card</div>
@@ -197,7 +197,7 @@
 
     <script>
     const STRIPE_PUBLIC_KEY = 'pk_test_51HelX0EDvQ8GmoM07OVwh23hqk2x5f39YBinBZ1O3Gc5DuT5TovvqUeF9UarS6G3uzJ4IsnuAaBni2xlAsEe0AeL00nzq6IMXt'; // TODO: PUT YOUR STRIPE PUBLISHABLE KEY HERE
-    const FIREBASE_FUNCTION = 'https://us-central1-beavereats.cloudfunctions.net/charge'; // TODO: PUT YOUR FIREBASE FUNCTIONS URL HERE
+    const FIREBASE_FUNCTION = 'https://beavereats.web.app/charge/'; // TODO: PUT YOUR FIREBASE FUNCTIONS URL HERE
 
     const stripe = Stripe(STRIPE_PUBLIC_KEY);
     const elements = stripe.elements();
@@ -238,7 +238,7 @@
                 isSubmitting = true;
 
                 elForm.style.display = 'none';
-                elProcessing.style.display = 'block';
+                // elProcessing.style.display = 'block';
 
                 payment_submit = document.getElementById("tel_and_pay");
                 payment_submit.style.visibility = "hidden"
@@ -278,7 +278,7 @@
     }
 
     // Function used by all three methods to send the charge data to your Firebase function
-    async function charge(token, amount, currency, cart) {
+    async function charge(token, amount, currency, cart, dorm_num, dorm, phone) {
         const res = await fetch(FIREBASE_FUNCTION, {
                 method: 'POST',
                 body: JSON.stringify({
