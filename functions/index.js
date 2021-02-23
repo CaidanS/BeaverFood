@@ -1,14 +1,14 @@
 
-// Clean up after any stray timers
-function clearAll() {
-    for (var i = setTimeout(function() {}, 0); i > 0; i--) {
-      window.clearInterval(i);
-      window.clearTimeout(i);
-      if (window.cancelAnimationFrame) window.cancelAnimationFrame(i);
-    }
-  }
+// // Clean up after any stray timers
+// function clearAll() {
+//     for (var i = setTimeout(function() {}, 0); i > 0; i--) {
+//       window.clearInterval(i);
+//       window.clearTimeout(i);
+//       if (window.cancelAnimationFrame) window.cancelAnimationFrame(i);
+//     }
+//   }
 
-clearAll();
+// clearAll();
 
 // This example sets up an endpoint using the Express framework.
 // Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
@@ -54,6 +54,7 @@ async function charge(req, res) {
     const cart = body.cart;
     // Calculate Charge
     var resturants_ref = admin.database().ref('/restaurants');
+    const dorm = body.dorm;
     const dorm_num = body.dorm_num;
     const cust_phone = body.phone;
     const notes = body.notes;
@@ -78,7 +79,6 @@ async function charge(req, res) {
         }
         SURCHARGE_VAL = 0.0; // 20% charge for service
         price_sum = price_sum * (1+SURCHARGE_VAL);
-
         // console.log("price_sum: ");
         // console.log(price_sum);
         // amount = price_sum
@@ -91,7 +91,7 @@ async function charge(req, res) {
             // console.log("amount: --");
             // console.log(amount);
             _charge = stripe.charges.create({
-                amount: (_price_sum*100),
+                amount: (Math.floor(_price_sum*100)),
                 currency: currency,
                 description: 'beavereats',
                 source: token,
@@ -117,6 +117,7 @@ async function charge(req, res) {
             time_created: current_time,
             window_to_deliver: delivery_window,
             dorm_to_num: dorm_num,
+            dorm: dorm,
             notes: notes,
             cust_phone: cust_phone,
             courier_id: "none",
@@ -224,6 +225,7 @@ function handle_sms_courier(req, res){
                 console.log(order_id);
                 courier_id = orders_snap.val()[order_id]["courier_id"]
                 assign_courier(courier_id, order_id);
+                clearInterval(order_intervals[order_id]);
                 offered_orders_ref.child(from_num.toString()).child(Object.keys(offers_snap.val()[from_num.toString()])[0]).remove()
                 return null;
             } else {
@@ -423,14 +425,15 @@ async function create_message_body_from_order_ref (order_ref) {
 
         dorm_num = order["dorm_to_num"];
         // console.log("dorm_num: " + dorm_num);
-        var sms_body = "\nRoom #: " + dorm_num + "," + order["dorm"];
-        sms_body += "\nItems: "
+        var sms_body = "\nRoom #: " + dorm_num + ", " + order["dorm"] + "\n";
+        
         sms_body += "\nNotes: \n" + order["notes"] + "\n";
+        sms_body += "\nItems: \n"
         temp_cart = order["cart"];
 
         for (item_id in temp_cart) {
             if (temp_cart.hasOwnProperty(item_id)){
-                sms_body += item_id + " x" + temp_cart[item_id] + '\n';
+                sms_body += item_id + " [x" + temp_cart[item_id] + ']\n';
             }
         }
         console.log("sms_body: " + sms_body);

@@ -154,7 +154,7 @@ updatePreviewTable = function(){
   }
   table.innerHTML = new_content;
   var price = document.getElementById("price_preview_total_num");
-  price.innerHTML = preview_price_sum;
+  price.innerHTML = Number(preview_price_sum).toFixed(2);
 }
 
 showMenu = function (rest_ID){

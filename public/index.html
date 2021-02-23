@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/main.css">
+    <link rel="stylesheet" type="text/css" href="/tel_handler/css/intlTelInput.css">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥞</text></svg>">
     <!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -64,12 +66,12 @@
                                 <!-- <button class="diner_option" id="RINGOFFIRE" onclick="showMenu(this.id)">
                                     <p> Ring of Fire</p>
                                     <p class="hours"> (10:00 AM - 7:00 PM) </p>
-                                </button>
-                                <button class="diner_option" id="SERRANO" onclick="showMenu(this.id)">
-                                    <p> Serrano </p>
+                                </button> -->
+                                <button class="diner_option" id="SERRANOS" onclick="showMenu(this.id)">
+                                    <p> Serrano's </p>
                                     <p class="hours"> (7:00 AM - 10:15 AM, 11:00 AM - 8:00 PM) </p>
                                 </button>
-                                <button class="diner_option" id="WESTSIDEGRILL" onclick="showMenu(this.id)">
+                                <!-- <button class="diner_option" id="WESTSIDEGRILL" onclick="showMenu(this.id)">
                                     <p> West Side Grill </p>
                                     <p class="hours"> (5:00 PM - 7:30 PM, 11:00 AM - 1:00 PM) </p>
                                 </button> -->
@@ -86,6 +88,7 @@
                             </table>
                         </div>
                         <div id="price_preview">
+                            
                             Total: <span name="price_preview_total">$<span id="price_preview_total_num">0</span></span>
                         </div>
                         <div id="select_time_range" style="display: none;">
@@ -104,10 +107,20 @@
                             <div id="processing" style="display: none;">processing...</div>
                             <div id="thanks" style="display: none;">Done!</div>
                             <!-- WATCH WHITESPACE FOR SPACING REASONS :( -->
-                            <span id="tel_and_pay" style="visibility: visible;"><input id="tel_input" type="tel" name="telephone" placeholder="Phone #" required form="master_form"><button name="confirm" type="submit" form="master_form">PAY</button></span>
+                            <span id="tel_and_pay" style="visibility: visible;"><input form="master_form" required type="tel" id="phone"  name="telephone" style="width: 100%;"><button name="confirm" type="submit" form="master_form">PAY</button></span>
+                                <!-- <input id="tel_input" type="tel" name="telephone" placeholder="Phone #" required form="master_form"> -->
                             <div id="progress_bar" style="visibility: hidden;">
                                 <div id="progress" style="text-align: center;"><span id="confirm_message" style="visibility: hidden; opacity: 0;">Order Placed!</span></div>
                             </div>
+                            
+                                <script src="/tel_handler/js/intlTelInput.js"></script>
+                                <script>
+                                var input = document.querySelector("#phone");
+                                var iti = window.intlTelInput(input, {
+                                    utilsScript: "/tel_handler/js/utils.js"
+                                    // any initialisation options go here
+                                });
+                                </script>
                         </div>
                         
                     </div>
@@ -257,7 +270,7 @@
                 charge_amount = 1500;
                 dorm_num = document.getElementById("room_num").value;
                 notes = document.getElementById("special_instructions").value;
-                phone = document.getElementById("tel_input").value;
+                phone = iti.getNumber(intlTelInputUtils.numberFormat.E164);
                 dorm = document.getElementById("dorms_select").value;
                 console.log("dorm_num: " + dorm_num);
                 console.log("notes: " + notes);

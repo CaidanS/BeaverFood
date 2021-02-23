@@ -414,7 +414,7 @@ span[name="price_preview_total"]{
 	float: right;
 }
 input[name="telephone"]{
-	width: 50%;
+	/* width: 50%; */
 	height: 3rem;
 	font-size: 2em;
 	box-sizing:border-box;

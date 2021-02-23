@@ -6,8 +6,8 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "intl-tel-input": "^17.0.12",
-    "twilio": "^3.56.0",
-    "stripe": "^8.130.0"
+    "stripe": "^8.130.0",
+    "twilio": "^3.56.0"
   },
   "devDependencies": {},
   "scripts": {
