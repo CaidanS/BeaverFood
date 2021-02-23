@@ -96,6 +96,7 @@ var id_to_name = {
   "espresso": "Espresso",
   "cookie":"Cookie"
 }
+
 var preview_prices = {
   "bananabread":2.00,
   "latte":3.00,

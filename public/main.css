@@ -72,7 +72,7 @@ html,body {
 	height: calc(90vh - 2rem);;
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: 10% 90%;
+	grid-template-rows: minmax(6rem, auto)  90%;
 	grid-template-areas: 
 	"title"
 	"main_page";
@@ -125,7 +125,7 @@ html,body {
 
 
 #main_page {
-	height: 100%;
+	height: 50%;
 	grid-area: main_page;
 	margin: 0px;
 	/*background-color: salmon;*/
@@ -134,18 +134,19 @@ html,body {
 	grid-template-rows: repeat(3, 100%);
 	grid-template-areas: 
 	"delivery_to"
+	"delivery_from"
 	"menu_items"
 	"payment"
 }
 
 @media only screen and (min-width: 1000px){
  	#main_page {
-		height: 100%;
+		height: 70%;
 		grid-area: main_page;
 		margin: 0px;
 		display: grid;
 		grid-template-columns: repeat(3, 33.33%);
-		grid-template-rows: 30% 70%;
+		grid-template-rows: minmax(20rem, auto) 70%;
 		grid-template-areas: 
 		"delivery_to menu_items payment"
 		"delivery_from menu_items payment"
@@ -163,6 +164,7 @@ html,body {
 
 #delivery_to_selectors {
 	grid-area: delivery_to;
+	/* height: ; */
 	/*background-color: lightblue;*/
 	padding: 1rem;
 	font-size: 2rem;
@@ -181,12 +183,11 @@ html,body {
 
 #room_or_entry {
 	display: grid;
-	grid-template-rows: 50% 50%;
+	grid-template-rows: 100%;
 	grid-template-columns: 50% 50%;
 	margin-top: 0.5rem;
 	grid-template-areas: 
 	"room_select room_num "
-	". ."
 }
 
 #room_or_entry button {
@@ -195,7 +196,10 @@ html,body {
 	height: 95%;
 	border: none;
 	border-radius: 2px;
-	font-size: 1.5rem;
+	font-size: 2rem;
+	padding: 2px;
+	box-sizing: border-box;
+
 }
 .direct_select {
 	-webkit-transition: all 0.3s linear;
@@ -216,6 +220,9 @@ html,body {
 }
 #room_select{
 	grid-area: room_select;
+	box-sizing: border-box;
+	font-size: 2rem;
+	padding: 3px;
 	/*background-color: blue;*/
 }
 
@@ -227,9 +234,11 @@ html,body {
 	grid-area: room_num;
 	width: 100%;
 	box-sizing: border-box;
-	margin-top: .5rem;
+	height: 95%;
+	/* margin-top: .5rem; */
 	font-size: 2rem;
-	/*background-color: green;*/
+	padding-right: 3px;
+	/* background-color: green; */
 }
 
 #delivery_from_selectors {
@@ -410,7 +419,6 @@ input[name="telephone"]{
 	font-size: 2em;
 	box-sizing:border-box;
 	padding: 0.25rem;
-
 }
 
 button[name="confirm"]{
@@ -426,7 +434,7 @@ button[name="confirm"]{
 	font-size: 2em;
 	/* background-color: lightgreen; */
 	box-sizing:border-box;
-	/* grid-area: send_button; */
+	grid-area: send_button;
 	padding: 4px;
 	border: 1px solid black;
 	border-radius: 7px;
