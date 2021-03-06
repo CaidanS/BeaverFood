@@ -29,7 +29,42 @@ var database = firebase.database();
 
 // *** HELPER FUNCTIONS ***
 
+add_courier_orders = function(){
+  var ref = firebase.app().database().ref('/current_orders/{order_id}');
+  // Don't completly understand .then things, but it is done async, so everything has to be within .then
+  ref.onWrite('value').then(function (snap) {
+    current_order = snap.val();
+    order_id = current_order.key;
+    cart = current_order['cart'];
+    courier_id = current_order['courier_id'];
+    cust_phone = current_order['cust_phone'];
+    dorm = current_order['dorm'];
+    dorm_to_num = current_order['dorm_to_num'];
+    status = current_order['status'];
+    time_created = current_order['time_created'];
+    notes = current_order['notes'];
+    console.log(cart, courier_id, cust_phone, dorm, dorm_to_num, status, time_created, notes);
 
+    row_content = `
+      <tr id=` + order_id + `>
+        <td>` + order_id + `</td>
+        <td>` + cart + `</td>
+        <td>` + cust_phone + `</td>
+        <td>` + status + `</td>
+        <td>` + courier_id + `</td>
+        <td>` + time_created + `</td>
+      </tr>`
+
+    if (document.getElementById("order_id") == null){
+      // new order
+      document.getElementById("order_table").appendChild(row_content);
+    } else {
+      // updating order
+      document.getElementById("order_id").innerHTML = row_content;
+    }
+
+  });
+}
 getMenuItems = function(rest_ID){
   var value = 'aaa'
   var ref = firebase.app().database().ref('/restaurants/'+rest_ID+'/menu');
@@ -328,3 +363,4 @@ const confNum = 100;
 const confs = new Array(confNum).fill().map(_ => new Confetti());
 
 // confetti_loop();
+

@@ -108,20 +108,20 @@
     .iti--container:hover {
       cursor: pointer; }
 
-.iti-mobile .iti--container {
+/* .iti-mobile .iti--container {
   top: 30px;
   bottom: 30px;
   left: 30px;
   right: 30px;
-  position: fixed; }
+  position: fixed; } */
 
-.iti-mobile .iti__country-list {
+/* .iti-mobile .iti__country-list {
   max-height: 100%;
   width: 100%; }
 
 .iti-mobile .iti__country {
   padding: 10px 10px;
-  line-height: 1.5em; }
+  line-height: 1.5em; } */
 
 .iti__flag {
   width: 20px; }

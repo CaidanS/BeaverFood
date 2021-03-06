@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/public/main.css">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥞</text></svg>">
+    <!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!-- <script src="/__/firebase/7.24.0/firebase-analytics.js"></script> -->
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-database.js"></script>
+    <!-- <script type="text/javascript" src="/app.js"></script> -->
+    <title> BeaverEats </title>
+
+</head>
+
+<body>
+    <form action="https://formspree.io/f/mzbklpdl" method="POST">
+        <table style="text-align: center; width: 100%">
+            <tr>
+                <td><input type="text" name="faq_name" placeholder="Name"> </td>
+                <td><select name="faq_dorm" required>
+                        <option value="WEST">WEST HALL</option>
+                        <!-- <option value="SACKETT">SACKETT</option> -->
+                    </select> </td>
+            </tr>
+            <tr>
+                <td><input type="tel" name="faq_tel" placeholder="Phone number" required></td>
+                <td><input type="email" name="_replyto" placeholder="Email" required> </td>
+            </tr>
+            <tr>
+                <td colspan="3"> <input name="faq_submit" type="submit" value="Submit"> </td>
+            </tr>
+        </table>
+    </form>
+        
+</body>

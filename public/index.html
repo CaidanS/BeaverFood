@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-width" />
     <link rel="stylesheet" type="text/css" href="/main.css">
     <link rel="stylesheet" type="text/css" href="/tel_handler/css/intlTelInput.css">
-
+    <meta name="viewport" content="width=device-width">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥞</text></svg>">
     <!-- <script type="text/javascript" src="/site_functions_main.js"></script> -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -24,28 +24,30 @@
     <canvas id="_canvas"></canvas>
     <form id="master_form"></form>
     <div id="content">
-        <div id="title">
+        <div id="title" class="drop_border ">
             <div id="name">🥞 BeaverEats</div>
             <!-- <div id="join"><a href="#">Sign up to deliver</a></div> -->
-            <div id="faq"><a href="#">FAQ/Become a courier</a></div>
+            <div id="faq" class="desktop-only"><a href="#" >FAQ/Become a courier</a></div>
             <!-- <div id="contact"><a href="#">Contact</a></div> -->
         </div>
         <div id="page_wrapper" style="height: calc(90vh - 2rem);">
             <div id="main_wrapper" style="visibility: visible; opacity: 1; height:90%">
                 <div id="main_page">
-                    <div id="delivery_to_selectors" class="drop_border">
+                    <div id="delivery_to_selectors" class="drop_border shadow">
                         <div class="section_title"> 1. Where are we delivering to? </div>
-                        <select id="dorms_select" form="master_form" required>
-                            <option value="WEST">WEST HALL</option>
-                            <option value="SACKETT">SACKETT</option>
-                        </select>
-                        <div id="room_or_entry" >
-                            <div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
-                            <div id="entry_select" style="display: none;"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])">Meet at dorm</button></div>
-                            <input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form" required>
+                        <div id="dorm_and_room_num_selectors">
+                            <select id="dorms_select" form="master_form" required style="width: 50%;">
+                                <option value="WEST">WEST HALL</option>
+                                <option value="SACKETT">SACKETT</option>
+                            </select>
+                            <span id="room_or_entry" >
+                                <input type="number" name="room_num" id="room_num" placeholder="Room #" form="master_form" required style="width: 45%;">
+                            </span>
                         </div>
+                        <!-- <div id="room_select"><button class="direct_select active" onclick="toggleDirect(this.classList[1])">Direct to Room</button></div>
+                            <div id="entry_select" style="display: none;"><button class="direct_select inactive" onclick="toggleDirect(this.classList[1])">Meet at dorm</button></div> -->
                     </div>
-                    <div id="delivery_from_selectors" class="drop_border">
+                    <div id="delivery_from_selectors" class="drop_border shadow">
                         <div class="section_title"> 2. Where from? (Scroll for more) </div>
                         <div id="dining_options">
                             <p> West Dining Center </p>
@@ -78,10 +80,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id="menu_items" class="drop_border">
+                    <div id="menu_items" class="drop_border shadow">
                         <div class="section_title"> 3. Menu Items </div>
                     </div>
-                    <div id="payment">
+                    <div id="payment" class="drop_border shadow"> 
                         <div id="payment_title" class="section_title"> 4. Confirm Order </div>
                         <div id="confirm_items_list">
                             <table style="width: 100%" id="confirm_items_table">
@@ -95,10 +97,10 @@
                             Deliver between <input type="time" name="time_range_start" required form="master_form"> and <input type="time" name="time_range_end" form="master_form"> (Contactless? <input type="checkbox" name="contactless" checked>)
                         </div>
                         <div id="instructions">
-                            <textarea rows="5" cols="2" id = "special_instructions" name="special_instructions" placeholder="Notes, Special Instructions, Substitutions, Requests etc." form="master_form"></textarea>
+                            <textarea rows="5" cols="2" id = "special_instructions" name="special_instructions" placeholder="Substitutions, order details, special requests, etc." form="master_form"></textarea>
                         </div>
                         <div id="send_button" style="visibility: visible;">
-                            <div>Pay with card</div>
+                            <div>Pay with card:</div>
                             <div id="card-element" form="master_form">
                                 <!-- Stripe card inputs get injected here -->
                             </div>
@@ -127,7 +129,7 @@
                 </div>
             </div>
             <div id="faq_body" style="visibility: hidden; opacity: 0">
-                <div id="faqs">
+                <div id="faqs" class="drop_border shadow">
                     <div class="section_title"> FAQ's </div>
                     <div class="join_content">
                         <ul>
@@ -142,16 +144,16 @@
                         </ul>
                     </div>
                 </div>
-                <div id="about">
+                <div id="about" class="drop_border shadow">
                     <div class="section_title"> About </div>
                     <div class="join_content">
                         <p> Ever been too lazy to go from your dorm down to West Dining? Starship deliveries are great, but you still have to leave class to pick up food. This is a pretty big ask, so I made this service to allow us to remain lazy. </p>
-                        <p> If you have any questions, please feel free to contact me at <a href="mailto:spethmcc@oregonstate.edu">spethmcc[at]oregonstate.edu</a>, or come say hi at 452 West Hall! </p>
+                        <p> If you have any questions, please feel free to contact me at <a href="mailto:spethmcc@oregonstate.edu">spethmcc[at]oregonstate.edu</a>, or come say hi at 465 West Hall! </p>
                         <p> If you couldn't tell by the web design, I am definitely not a cs major, so if you have any experience, ideas or interest in collaborating, help is always appreciated!</p>
                         <p> This project is currently run via Node, Cloud Functions, and Stripe. It is hosted via Google Firebase. </p>
                     </div>
                 </div>
-                <div id="sign_up">
+                <div id="sign_up" class="drop_border shadow">
                     <div class="section_title"> Interested in delivering? </div>
                     <div class="join_content">
                         <!-- <p> We are always looking for new couriers! Delivering is a low stress, easy way to earn a few extra bucks. </p> -->
@@ -180,12 +182,12 @@
                                     <td><input type="text" name="faq_name" placeholder="Name"> </td>
                                     <td><select name="faq_dorm" required>
                                             <option value="WEST">WEST HALL</option>
-                                            <option value="SACKETT">SACKETT</option>
+                                            <!-- <option value="SACKETT">SACKETT</option> -->
                                         </select> </td>
                                 </tr>
                                 <tr>
                                     <td><input type="tel" name="faq_tel" placeholder="Phone number" required></td>
-                                    <td><input type="email" name="_replyto" placeholder="Email"> </td>
+                                    <td><input type="email" name="_replyto" placeholder="Email" required> </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"> <input name="faq_submit" type="submit" value="Submit"> </td>
@@ -210,7 +212,7 @@
     <script src="https://checkout.stripe.com/checkout.js"></script>
 
     <script>
-    const STRIPE_PUBLIC_KEY = 'pk_test_51HelX0EDvQ8GmoM07OVwh23hqk2x5f39YBinBZ1O3Gc5DuT5TovvqUeF9UarS6G3uzJ4IsnuAaBni2xlAsEe0AeL00nzq6IMXt'; // TODO: PUT YOUR STRIPE PUBLISHABLE KEY HERE
+    const STRIPE_PUBLIC_KEY = 'pk_live_51HelX0EDvQ8GmoM0ZdgjDydaABs9gAKtoehMTSUpXeMTcUxeiwVaCqOW6rCSopRzlK5HWYFgC6lA99YIbqHh7nmd00EmRJbPBl'; // TODO: PUT YOUR STRIPE PUBLISHABLE KEY HERE
     const FIREBASE_FUNCTION = 'https://beavereats.web.app/charge/'; // TODO: PUT YOUR FIREBASE FUNCTIONS URL HERE
 
     const stripe = Stripe(STRIPE_PUBLIC_KEY);
@@ -255,7 +257,7 @@
                 // elProcessing.style.display = 'block';
 
                 payment_submit = document.getElementById("tel_and_pay");
-                payment_submit.style.visibility = "hidden"
+                // payment_submit.style.visibility = "hidden"
                 progress_bar_container = document.getElementById("progress_bar");
                 progress_bar_container.style.visibility = "visible"
                 progress_bar = document.getElementById("progress");

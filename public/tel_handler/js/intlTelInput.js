@@ -983,6 +983,7 @@
                         if (typeof this.options.customPlaceholder === "function") {
                             placeholder = this.options.customPlaceholder(placeholder, this.selectedCountryData);
                         }
+                        placeholder = "Phone #"
                         this.telInput.setAttribute("placeholder", placeholder);
                     }
                 }

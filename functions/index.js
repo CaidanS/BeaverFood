@@ -16,7 +16,9 @@
 // Set your secret key. Remember to switch to your live secret key in production!
 // See your keys here: https://dashboard.stripe.com/account/apikeys
 const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51HelX0EDvQ8GmoM0aB7xY6ragvxhH656AoVAywUn9EGG5SGpE3OcsaBNWoJKl0Ao21akoPuB1mzvkStDC8uwSG5D00VcgUrIX7');
+// should the live key be in here? no
+// am i too lazy to figure out environment variables for firebase? yes
+const stripe = Stripe('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');
 
 const functions = require('firebase-functions');
 const express = require('express');
@@ -172,7 +174,7 @@ exports.charge = functions.https.onRequest(app);
 exports.handle_sms_courier = functions.https.onRequest(app);
 
 const accountSid = "AC3045fe88e0d9327c49cf1607148f04fd";
-const authToken = "088a4cfd72315278c7ba495728825ea3";
+const authToken = "89980414845f424b9bc0f8558b2e9654";
 const client = require('twilio')(accountSid, authToken);
 // app.use('/handle_sms_courier', bodyParser.urlencoded({ extended: false }));
 
@@ -312,8 +314,15 @@ exports.sms = functions.database.ref("/current_orders/{order_id}").onCreate( asy
         num = '';
         couriers = _snap.val();
         var courier_interval_count = 0;
+        courier_id = Object.keys(couriers)[courier_interval_count]
+        last_num = num;    
+        num = couriers[courier_id]['phone'];
+        ask_courier (courier_id, order_id, num);
+        offered_orders_ref.child(last_num.toString()).child(order_id).remove()
+        courier_interval_count += 1;
+
         order_intervals[order_id] = setInterval(() => {       
-                if (Number((courier_interval_count) >= Number(_snap.numChildren()))){
+                if (Number((courier_interval_count) >= (Number(_snap.numChildren()))-1)){
                     console.log("killing interval of: " + courier_id)
                     clearInterval(order_intervals[order_id]);
                 } else {
@@ -327,7 +336,6 @@ exports.sms = functions.database.ref("/current_orders/{order_id}").onCreate( asy
                     ask_courier (courier_id, order_id, num);
                     offered_orders_ref.child(last_num.toString()).child(order_id).remove()
                     courier_interval_count += 1;
-
                 }
         }, order_time_out)
         return null;
@@ -381,11 +389,11 @@ async function assign_courier (courier_id, order_id) {
     order_ref.child("status").set("assigned");
     courier_order_ref = admin.database().ref('/couriers/'+courier_id+"/current_orders/");
     courier_order_ref.child(order_id).set("assigned");
-
     
-    Promise.all([get_courier_num(courier_id), create_message_body_from_order_ref(order_ref)]).then((values) => {
+    Promise.all([get_courier_num(courier_id), create_message_body_from_order_ref(order_ref)], order_ref.once('value')).then((values) => {
         console.log("num: " + values[0] + " \nbody: " + values[1]);
         send_sms(values[0], 'New order assigned: \n' + values[1]);
+        send_sms(values[2]['cust_phone'], "Your BeaverEats order has been assigned to a courier, expect a delivery soon!")
         return null
     }).catch (err =>{
         console.log(err);
