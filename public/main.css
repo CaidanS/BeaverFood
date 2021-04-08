@@ -463,6 +463,7 @@ button[name="confirm"]{
 	box-sizing:border-box;
 	grid-area: send_button;
 	padding: 4px;
+	margin-top: 4px;
 	border: 1px solid black;
 	border-radius: 7px;
 }

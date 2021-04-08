@@ -390,10 +390,12 @@ async function assign_courier (courier_id, order_id) {
     courier_order_ref = admin.database().ref('/couriers/'+courier_id+"/current_orders/");
     courier_order_ref.child(order_id).set("assigned");
     
-    Promise.all([get_courier_num(courier_id), create_message_body_from_order_ref(order_ref)], order_ref.once('value')).then((values) => {
+    Promise.all([get_courier_num(courier_id), create_message_body_from_order_ref(order_ref), order_ref.once('value')]).then((values) => {
         console.log("num: " + values[0] + " \nbody: " + values[1]);
         send_sms(values[0], 'New order assigned: \n' + values[1]);
-        send_sms(values[2]['cust_phone'], "Your BeaverEats order has been assigned to a courier, expect a delivery soon!")
+        console.log(values[2].val()['cust_phone']);
+        console.log(values[2]);
+        send_sms(values[2].val()['cust_phone'], "Your BeaverEats order has been assigned to a courier, expect a delivery soon!")
         return null
     }).catch (err =>{
         console.log(err);

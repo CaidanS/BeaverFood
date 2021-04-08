@@ -17,6 +17,15 @@
     <script src="/__/firebase/7.24.0/firebase-database.js"></script>
     <!-- <script type="text/javascript" src="/app.js"></script> -->
     <title> BeaverEats </title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KJ0NJG0T53"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KJ0NJG0T53');
+</script>
 
 </head>
 
@@ -233,72 +242,74 @@
     addCardMethod();
 
     function addCardMethod() {
-        const card = elements.create('card');
-            card.mount(elCard);
+        const card = elements.create('card', {
+                hidePostalCode: true
+        });
+        card.mount(elCard);
+        
+        // Create flags to help prevent duplicate submissions
+        let isSubmitting, isSuccess;
 
-            // Create flags to help prevent duplicate submissions
-            let isSubmitting, isSuccess;
+        // Handle validation errors from the card element
+        card.addEventListener('change', e => {
+            if (e.error) {
+                elError.textContent = e.error.message;
+            } else {
+                elError.textContent = '';
+            }
+        });
 
-            // Handle validation errors from the card element
-            card.addEventListener('change', e => {
-                if (e.error) {
-                    elError.textContent = e.error.message;
-                } else {
-                    elError.textContent = '';
-                }
-            });
+        elForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            if (isSubmitting) return;
+            isSubmitting = true;
 
-            elForm.addEventListener('submit', async e => {
-                e.preventDefault();
-                if (isSubmitting) return;
-                isSubmitting = true;
+            elForm.style.display = 'none';
+            // elProcessing.style.display = 'block';
 
-                elForm.style.display = 'none';
-                // elProcessing.style.display = 'block';
+            payment_submit = document.getElementById("tel_and_pay");
+            // payment_submit.style.visibility = "hidden"
+            progress_bar_container = document.getElementById("progress_bar");
+            progress_bar_container.style.visibility = "visible"
+            progress_bar = document.getElementById("progress");
+            progress_bar.style.width = "80%";
 
-                payment_submit = document.getElementById("tel_and_pay");
-                // payment_submit.style.visibility = "hidden"
-                progress_bar_container = document.getElementById("progress_bar");
-                progress_bar_container.style.visibility = "visible"
-                progress_bar = document.getElementById("progress");
-                progress_bar.style.width = "80%";
+            let result = await stripe.createToken(card);
 
-                let result = await stripe.createToken(card);
+            // Error in receiving token
+            if (result.error) return elError.textContent = result.error.message;
 
-                // Error in receiving token
-                if (result.error) return elError.textContent = result.error.message;
+            // Pass the received token to our Firebase function
+            charge_amount = 1500;
+            dorm_num = document.getElementById("room_num").value;
+            notes = document.getElementById("special_instructions").value;
+            phone = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+            dorm = document.getElementById("dorms_select").value;
+            console.log("dorm_num: " + dorm_num);
+            console.log("notes: " + notes);
+            console.log("phone: " + phone);
 
-                // Pass the received token to our Firebase function
-                charge_amount = 1500;
-                dorm_num = document.getElementById("room_num").value;
-                notes = document.getElementById("special_instructions").value;
-                phone = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-                dorm = document.getElementById("dorms_select").value;
-                console.log("dorm_num: " + dorm_num);
-                console.log("notes: " + notes);
-                console.log("phone: " + phone);
+            let res = await charge(result.token, charge_amount, charge_currency, window.cart, dorm, dorm_num, notes, phone);
+            if (res.body.error) return elError.textContent = res.body.error;
 
-                let res = await charge(result.token, charge_amount, charge_currency, window.cart, dorm, dorm_num, notes, phone);
-                if (res.body.error) return elError.textContent = res.body.error;
+            // Card successfully charged
+            card.clear();
+            isSuccess = true;
 
-                // Card successfully charged
-                card.clear();
-                isSuccess = true;
+            isSubmitting = false;
+            elProcessing.style.display = 'none';
 
-                isSubmitting = false;
-                elProcessing.style.display = 'none';
-
-                // Either display thanks or re-display form if there was an error
-                if (isSuccess) {
-                    progress_bar.style.width = "100%";
-                    confetti_loop();
-                    confrim_message_span = document.getElementById("confirm_message")
-                    confrim_message_span.style.opacity = 1;
-                    confrim_message_span.style.visibility = "visible";
-                } else {
-                    elForm.style.display = 'block';
-                }
-            });
+            // Either display thanks or re-display form if there was an error
+            if (isSuccess) {
+                progress_bar.style.width = "100%";
+                confetti_loop();
+                confrim_message_span = document.getElementById("confirm_message")
+                confrim_message_span.style.opacity = 1;
+                confrim_message_span.style.visibility = "visible";
+            } else {
+                elForm.style.display = 'block';
+            }
+        });
     }
 
     // Function used by all three methods to send the charge data to your Firebase function
